@@ -1,0 +1,133 @@
+.LoginPage {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.Login_Form {
+    width: 60%;
+    height: 100%;
+    background-color: #FEFEFE;
+}
+
+.Login_About {
+    width: 40%;
+    height: 100vh;
+    background: linear-gradient(280deg, #78481E 54%, #222222 100%);
+}
+
+/* الزر الافتراضي */
+.LoginFormInputs .bottom-link {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+/* دعم خاص لأيقونات التواصل الاجتماعي */
+.socialMediaIcons a {
+    display: inline-block;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.socialMediaIcons a:hover {
+    transform: scale(1.1);
+}
+
+/* أزرار النجاح */
+.Sucess-button {
+    background-color: #198754;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.Sucess-button:hover {
+    background-color: #146e44;
+}
+
+/* أزرار الخطأ */
+.inVaild-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.inVaild-button:hover {
+    background-color: #af2b38;
+}
+
+/* دعم الشاشات الصغيرة (الموبايل) */
+@media screen and (max-width: 768px) {
+    .LoginPage {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .Login_Form,
+    .Login_About {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .Login_About {
+        padding-top: 2rem;
+        text-align: center;
+    }
+
+    .Login_About img {
+        width: 60%;
+    }
+
+    .LoginFormInputs .absolute {
+        position: static;
+        margin-top: 2rem;
+        text-align: center;
+    }
+}
+
+/* دعم الشاشات المتوسطة (768px إلى 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .LoginPage {
+        flex-direction: column;
+    }
+
+    .Login_Form,
+    .Login_About {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .Login_Form {
+        padding: 2rem;
+    }
+
+    .LoginFormInputs {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .LoginFormInputs .absolute {
+        position: static;
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .Login_About {
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .socialMediaIcons {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+}

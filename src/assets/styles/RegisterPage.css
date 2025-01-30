@@ -1,0 +1,59 @@
+.RegisterPage {
+    background: linear-gradient(280deg, #78481E 54%, #222222 100%);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.Regsiter_form {
+    background-color: #fefefe;
+    width: 40%;
+    height: 87%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    margin-bottom: 0;
+}
+
+.RegisterFormInputs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+/* دعم الشاشات الصغيرة جدًا (أقل من 480px) */
+@media screen and (max-width: 480px) {
+    .Regsiter_form {
+        width: 90%;
+        height: auto;
+        padding: 1rem;
+    }
+}
+
+/* دعم الشاشات الصغيرة (480px إلى 768px) */
+@media screen and (max-width: 768px) {
+    .Regsiter_form {
+        width: 80%;
+        height: auto;
+        padding: 1.5rem;
+    }
+}
+
+/* دعم الشاشات المتوسطة (768px إلى 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .Regsiter_form {
+        width: 60%;
+        height: auto;
+        padding: 2rem;
+    }
+}

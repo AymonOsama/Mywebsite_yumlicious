@@ -1,0 +1,45 @@
+/* القائمة الجانبية */
+.side-nav-bar {
+    width: 70%; /* عرض أكبر قليلاً للشاشات الصغيرة */
+    max-width: 300px; /* أقصى عرض للقائمة */
+    background-color: rgba(51, 51, 51, 0.95); /* اجعل اللون أكثر وضوحًا */
+    color: white;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    height: 100vh;
+    position: fixed; /* ثابت على الشاشة */
+    top: 0;
+    left: 0;
+    z-index: 50; /* فوق جميع العناصر الأخرى */
+}
+
+/* عند إظهار القائمة */
+.side-nav-bar.translate-x-0 {
+    transform: translateX(0);
+}
+
+/* زر القائمة (Hamburger Menu) */
+.menu-btn {
+    position: fixed;
+    top: 1rem; /* تأكد من مكانه في الأعلى */
+    left: 1rem; /* أو right حسب التصميم */
+    z-index: 100;
+    cursor: pointer;
+    color: white;
+}
+
+
+/* الشاشات المتوسطة */
+@media (min-width: 768px) {
+    .side-nav-bar {
+        width: 20%; /* عرض القائمة للشاشات المتوسطة */
+        max-width: 240px; /* أقصى عرض للقائمة */
+        transform: translateX(0); /* إظهار القائمة */
+        position: sticky; /* اجعلها تتحرك مع الشاشة */
+        top: 0;
+        z-index: 40; /* أقل من الزر */
+    }
+    .menu-btn {
+        display: none; /* إخفاء الزر على الشاشات الكبيرة */
+    }
+}

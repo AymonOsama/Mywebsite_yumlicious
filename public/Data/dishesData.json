@@ -1,0 +1,202 @@
+[
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Grilled Chicken",
+      "description": "Grilled chicken with rice, peas, salads and bread",
+      "price": 58,
+      "likes": 4,
+      "category": "Chicken"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Burger",
+      "description": "Delicious beef burger with cheese and veggies",
+      "price": 45,
+      "likes": 5,
+      "category": "Meat"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Pizza",
+      "description": "Pepperoni pizza with extra cheese",
+      "price": 70,
+      "likes": 8,
+      "category": "Desert"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Pasta",
+      "description": "Spaghetti with tomato sauce and meatballs",
+      "price": 60,
+      "likes": 2,
+      "category": "Meat"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Salad",
+      "description": "Fresh garden salad with olive oil dressing",
+      "price": 40,
+      "likes": 66,
+      "category": "Desert"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Steak",
+      "description": "Juicy steak with mashed potatoes",
+      "price": 120,
+      "likes": 4,
+      "category": "Meat"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Fries",
+      "description": "Crispy french fries with ketchup",
+      "price": 20,
+      "likes": 33,
+      "category": "Desert"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Ice Cream",
+      "description": "Delicious vanilla ice cream with chocolate sauce",
+      "price": 30,
+      "likes": 2,
+      "category": "Desert"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Coke",
+      "description": "Refreshing cold Coca-Cola drink",
+      "price": 10,
+      "likes": 10,
+      "category": "Drink"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Hot Dog",
+      "description": "Hot dog with mustard and ketchup",
+      "price": 25,
+      "likes": 1,
+      "category": "Meat"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Soup",
+      "description": "Hot tomato soup with croutons",
+      "price": 35,
+      "likes": 5,
+      "category": "Chicken"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Pancakes",
+      "description": "Fluffy pancakes with syrup",
+      "price": 50,
+      "likes": 3,
+      "category": "Desert"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Orange Juice",
+      "description": "Freshly squeezed orange juice",
+      "price": 15,
+      "likes": 4,
+      "category": "Drink"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Lemonade",
+      "description": "Refreshing cold lemonade",
+      "price": 12,
+      "likes": 5,
+      "category": "Drink"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Coffee",
+      "description": "Hot brewed coffee",
+      "price": 8,
+      "likes": 3,
+      "category": "Drink"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Tea",
+      "description": "Hot black tea with sugar",
+      "price": 7,
+      "likes": 2,
+      "category": "Drink"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Smoothie",
+      "description": "Healthy berry smoothie",
+      "price": 20,
+      "likes": 4,
+      "category": "Drink"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Milkshake",
+      "description": "Cold chocolate milkshake",
+      "price": 18,
+      "likes": 5,
+      "category": "Drink"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Water",
+      "description": "Bottled still water",
+      "price": 5,
+      "likes": 1,
+      "category": "Drink"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Fried Chicken",
+      "description": "Crispy fried chicken drumsticks",
+      "price": 55,
+      "likes": 5,
+      "category": "Chicken"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Beef Steak",
+      "description": "Grilled beef steak with herb butter",
+      "price": 130,
+      "likes": 4,
+      "category": "Meat"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Chocolate Cake",
+      "description": "Rich chocolate cake with frosting",
+      "price": 60,
+      "likes": 3,
+      "category": "Desert"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Cheesecake",
+      "description": "Creamy cheesecake with strawberry topping",
+      "price": 70,
+      "likes": 5,
+      "category": "Desert"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Spring Rolls",
+      "description": "Crispy vegetable spring rolls",
+      "price": 25,
+      "likes": 2,
+      "category": "Desert"
+  },
+  {
+      "image": "/DataImages/images.jpeg",
+      "name": "Espresso",
+      "description": "Rich and bold espresso shot",
+      "price": 10,
+      "likes": 3,
+      "category": "Drink"
+  }
+]
