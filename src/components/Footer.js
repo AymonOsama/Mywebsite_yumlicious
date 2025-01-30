@@ -20,16 +20,16 @@ const Footer = () => {
 
                 {/* Social Media Links */}
                 <div className="flex gap-4 justify-center md:justify-end">
-                    <a href="#" className="text-white hover:text-orange-500 transition text-xl">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-500 transition text-xl">
                         <FaFacebookF />
                     </a>
-                    <a href="#" className="text-white hover:text-orange-500 transition text-xl">
+                    <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-500 transition text-xl">
                         <FaTwitter />
                     </a>
-                    <a href="#" className="text-white hover:text-orange-500 transition text-xl">
+                    <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-500 transition text-xl">
                         <FaYoutube />
                     </a>
-                    <a href="#" className="text-white hover:text-orange-500 transition text-xl">
+                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-500 transition text-xl">
                         <FaLinkedinIn />
                     </a>
                 </div>
