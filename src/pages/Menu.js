@@ -11,43 +11,70 @@ import Footer from "../components/Footer";
 import "../assets/styles/Menu.css";
 
 const Menu = () => {
-    const [dishes, setDishes] = useState([]); // Store dishes from JSON
+    const [dishes, setDishes] = useState([]);
     const [activeCategory, setActiveCategory] = useState("Chicken");
     const [sortOrder, setSortOrder] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6;
+    const itemsPerPage = 6; // عدد الأطباق في كل صفحة
 
-    // Fetch dishes from JSON file
+    // استرجاع الإعجابات من localStorage عند تحميل الصفحة
+    const getStoredLikes = () => JSON.parse(localStorage.getItem("likedDishes")) || {};
+    const [likedDishes, setLikedDishes] = useState(getStoredLikes);
+
     useEffect(() => {
-        fetch("/data/dishesData.json") // Correct path to the JSON file in the `public` folder
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch dishes data");
-                }
-                return response.json();
+        fetch("/data/dishesData.json")
+            .then((response) => response.json())
+            .then((data) => {
+                const dishesWithId = data.map((dish, index) => ({
+                    ...dish,
+                    id: dish.id || index + 1, // إضافة ID تلقائي إذا لم يكن موجودًا
+                }));
+                setDishes(dishesWithId);
             })
-            .then((data) => setDishes(data))
             .catch((error) => console.error("Error loading dishes:", error));
     }, []);
 
-    // Filter dishes by category
+    // تحديث الإعجاب عند الضغط على القلب
+    const handleLikeToggle = (id) => {
+        setLikedDishes((prevLikes) => {
+            const newLikes = { ...prevLikes, [id]: !prevLikes[id] };
+            localStorage.setItem("likedDishes", JSON.stringify(newLikes));
+            return newLikes;
+        });
+
+        setDishes((prevDishes) =>
+            prevDishes.map((dish) =>
+                dish.id === id
+                    ? { ...dish, likes: likedDishes[id] ? dish.likes - 1 : dish.likes + 1 }
+                    : dish
+            )
+        );
+    };
+
     let filteredDishes = dishes.filter((dish) => dish.category === activeCategory);
 
-    // Sort dishes based on price
     if (sortOrder === "lowToHigh") {
         filteredDishes = [...filteredDishes].sort((a, b) => a.price - b.price);
     } else if (sortOrder === "highToLow") {
         filteredDishes = [...filteredDishes].sort((a, b) => b.price - a.price);
     }
 
-    // Pagination logic
+    // **📌 حساب عدد الصفحات**
     const totalPages = Math.ceil(filteredDishes.length / itemsPerPage);
+    
+    // **📌 تحديد العناصر التي سيتم عرضها في الصفحة الحالية**
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredDishes.slice(indexOfFirstItem, indexOfLastItem);
 
-    const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
-    const previousPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+    // **📌 التحكم في تغيير الصفحات**
+    const nextPage = () => {
+        if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    };
+
+    const previousPage = () => {
+        if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    };
 
     return (
         <motion.div
@@ -69,55 +96,55 @@ const Menu = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 my-10 px-4 lg:ml-10">
                     {currentItems.length === 0 ? (
-                        <p className="text-center text-gray-500">No items available.</p>
+                        <p className="text-center text-gray-500">No Dishes available.</p>
                     ) : (
-                        currentItems.map((dish, index) => <DishCard key={index} dish={dish} />)
+                        currentItems.map((dish) => (
+                            <DishCard
+                                key={dish.id}
+                                dish={dish}
+                                isLiked={!!likedDishes[dish.id]}
+                                onLikeToggle={() => handleLikeToggle(dish.id)}
+                            />
+                        ))
                     )}
                 </div>
 
-                {/* Pagination */}
-                <div className="flex justify-center mt-6 mb-20">
-                    <nav aria-label="Page navigation example" className="justify-center">
-                        <ul className="inline-flex -space-x-px text-sm md:text-base">
-                            <li>
-                                <button
-                                    className={`px-3 md:px-4 h-8 md:h-10 text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-orange-500 hover:text-white ${
-                                        currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                                    }`}
-                                    onClick={previousPage}
-                                    disabled={currentPage === 1}
-                                >
-                                    &lt;
-                                </button>
-                            </li>
-                            {Array.from({ length: totalPages }, (_, index) => (
-                                <li key={index}>
-                                    <button
-                                        onClick={() => setCurrentPage(index + 1)}
-                                        className={`px-3 md:px-4 h-8 md:h-10 ${
-                                            currentPage === index + 1
-                                                ? "bg-orange-500 text-white"
-                                                : "text-gray-700 bg-white border border-gray-300 hover:bg-orange-500 hover:text-white"
-                                        }`}
-                                    >
-                                        {index + 1}
-                                    </button>
-                                </li>
-                            ))}
-                            <li>
-                                <button
-                                    className={`px-3 md:px-4 h-8 md:h-10 text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-orange-500 hover:text-white ${
-                                        currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-                                    }`}
-                                    onClick={nextPage}
-                                    disabled={currentPage === totalPages}
-                                >
-                                    &gt;
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+                {/* 📌 أزرار التنقل بين الصفحات */}
+                {totalPages > 1 && (
+                    <div className="flex justify-center mt-6 mb-10">
+                        <button
+                            className={`px-4 py-2 mx-1 bg-gray-700 text-white rounded-md ${
+                                currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-600"
+                            }`}
+                            onClick={previousPage}
+                            disabled={currentPage === 1}
+                        >
+                            ❮ Prev
+                        </button>
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setCurrentPage(index + 1)}
+                                className={`px-4 py-2 mx-1 rounded-md ${
+                                    currentPage === index + 1
+                                        ? "bg-orange-500 text-white"
+                                        : "bg-gray-700 text-white hover:bg-gray-600"
+                                }`}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                        <button
+                            className={`px-4 py-2 mx-1 bg-gray-700 text-white rounded-md ${
+                                currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-600"
+                            }`}
+                            onClick={nextPage}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next ❯
+                        </button>
+                    </div>
+                )}
 
                 <Footer />
             </div>

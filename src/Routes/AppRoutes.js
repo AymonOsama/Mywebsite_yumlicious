@@ -8,6 +8,7 @@ import Register from '../pages/Auth/Register'
 import ForgetPassword from '../pages/Auth/ForgetPassword'
 import HomePage from '../pages/HomePage'
 import Menu from '../pages/Menu'
+import Cart from '../pages/Cart';
 
 const AppRoutes = () => {
     return (
@@ -26,6 +27,8 @@ const AppRoutes = () => {
                 <Route path="/home" element={<HomePage />} />
 
                 <Route path='/menu' element={<Menu />} />
+
+                <Route path='/cart' element = {<Cart/>} />
 
             </Routes>
         </Router>

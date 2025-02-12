@@ -38,7 +38,7 @@ const SideNavBar = () => {
         <>
             {/* Hamburger Menu Button */}
             <button
-                className="fixed z-50 text-3xl text-white top-3 left-3 md:hidden"
+                className="close-btn fixed top-4 left-4 text-white text-3xl md:hidden"
                 onClick={toggleMenu}
             >
                 {isMenuOpen ? <AiOutlineClose /> : <AiOutlineMenu />}

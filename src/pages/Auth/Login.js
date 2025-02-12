@@ -167,9 +167,7 @@ const Login = () => {
                 </motion.div>
 
                 <motion.div
-                    className='viewMenuBtn mt-10'
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    className='viewMenuBtn mt-10 '
                 >
                     <Link
                         className="inline-block rounded-2xl border-4 border-white px-6 py-3 text-sm font-bold text-white focus:outline-none transform transition-transform duration-300 hover:scale-105"
@@ -180,7 +178,7 @@ const Login = () => {
                 </motion.div>
 
                 <motion.div
-                    className='socialMediaIcons mt-20 mr-10 ml-10'
+                    className='socialMediaIcons mt-20 mr-10 ml-3 sm:ml-10'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.5, duration: 1 }}

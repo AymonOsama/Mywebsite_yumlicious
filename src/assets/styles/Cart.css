@@ -1,0 +1,38 @@
+.allCartPage {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    background: linear-gradient(280deg, #78481E 54%, #222222 100%);
+    height: 100vh;
+    width: 100vw; /* تم تغيير 100vw إلى 100% */
+    box-sizing: border-box; /* إضافة box-sizing */
+    overflow-x: hidden; /* إضافة overflow-x: hidden */
+}
+/* جعل قائمة المنتجات قابلة للتمرير عموديًا */
+.dishesOrderdCon {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px; /* تحديد أقصى ارتفاع قبل ظهور التمرير */
+    overflow-y: auto; /* تمكين التمرير العمودي فقط */
+    scrollbar-width: thin; /* تخصيص شريط التمرير للمتصفحات الداعمة */
+    scrollbar-color: rgba(255, 255, 255, 0.5) transparent; /* لون شريط التمرير */
+    padding-right: 10px; /* ترك مساحة لشريط التمرير */
+}
+
+/* تخصيص شريط التمرير لمتصفح Chrome و Edge */
+.dishesOrderdCon::-webkit-scrollbar {
+    width: 8px; /* تحديد عرض شريط التمرير */
+}
+
+.dishesOrderdCon::-webkit-scrollbar-track {
+    background: transparent; /* إخفاء الخلفية */
+}
+
+.dishesOrderdCon::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5); /* لون شريط التمرير */
+    border-radius: 10px; /* جعل الشريط دائري */
+}
+
+.dishesOrderdCon::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 165, 0, 0.8); /* تغيير اللون عند التفاعل */
+}
