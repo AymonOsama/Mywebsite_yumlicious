@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { Tooltip } from "react-tooltip";
 
 // Import style files
 import '../assets/styles/SideNavBarCom.css';
 
 // Import images
 import logo from '../assets/images/logo.png';
-import profilephoto from '../assets/images/463394806_900713062066252_7587263235661034460_n.jpg';
+import profilephoto from '../assets/images/default.jpg';
 
 // Import icons
 import { HiOutlineLogout } from 'react-icons/hi';
@@ -18,6 +21,14 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 
 const SideNavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        setUser(storedUser);
+    }, []);
+    
 
     const toggleMenu = () => {
         setIsMenuOpen((prev) => !prev);
@@ -33,6 +44,29 @@ const SideNavBar = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    const handleLogout = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you really want to log out?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sure",
+            cancelButtonText: "No",
+            customClass: {
+                confirmButton: "Sucess-button",
+                cancelButton: "inVaild-button",
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem("loggedInUser"); // حذف بيانات المستخدم
+                setUser(null); // تحديث الحالة
+                navigate("/login"); // إعادة التوجيه لصفحة تسجيل الدخول
+            }
+        });
+    };
+    
+    
 
     return (
         <>
@@ -104,12 +138,24 @@ const SideNavBar = () => {
                 </div>
 
                 {/* User Profile */}
-                <div className="user-profile mt-auto flex items-center gap-3 w-full px-4">
-                    <img src={profilephoto} alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
-                    <span className="flex-grow text-sm">Ayman Osama</span>
-                    <Link to="/login" className="text-red-400 hover:text-red-500">
+                <div className="user-profile mt-auto flex items-center justify-between gap-4 w-full px-4">
+                    <img 
+                        src={user?.profilePic || profilephoto} 
+                        alt="User" 
+                        className="w-10 h-10 rounded-full border-2 border-white" 
+                    />
+                    <span className="flex-grow text-sm">
+                        {user ? `${user.firstName} ${user.lastName}` : "Guest"}
+                    </span>
+                    <button 
+                        data-tooltip-id="logout-tooltip" 
+                        data-tooltip-content="Log Out"
+                        className="text-red-400 hover:text-red-500"
+                        onClick={handleLogout}
+                    >
                         <HiOutlineLogout className="text-3xl" />
-                    </Link>
+                    </button>
+                    <Tooltip id="logout-tooltip" place="top" effect="solid" delayShow={200} />
                 </div>
             </div>
         </>

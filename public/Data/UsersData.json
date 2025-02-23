@@ -1,0 +1,25 @@
+[
+    {
+      "id": 1,
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "phone": "+123456789",
+      "country": "USA",
+      "city": "New York",
+      "profileImage": "/DataImages/default.jpg"
+    },
+    {
+      "id": 2,
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "user@example.com",
+      "password": "user123",
+      "phone": "+987654321",
+      "country": "UK",
+      "city": "London",
+      "profileImage": "/DataImages/default.jpg"
+    }
+  ]
+  

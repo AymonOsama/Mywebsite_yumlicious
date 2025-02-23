@@ -1,0 +1,10 @@
+.CheckOutPage {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    background: linear-gradient(280deg, #78481E 54%, #222222 100%);
+    min-height: 100vh;
+    width: 100vw; /* تم تغيير 100vw إلى 100% */
+    box-sizing: border-box; /* إضافة box-sizing */
+    overflow-x: hidden; /* إضافة overflow-x: hidden */
+}

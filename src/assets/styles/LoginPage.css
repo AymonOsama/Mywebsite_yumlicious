@@ -1,7 +1,10 @@
 .LoginPage {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
 }
 
 .Login_Form {
@@ -131,5 +134,46 @@
     .socialMediaIcons {
         justify-content: center;
         gap: 1.5rem;
+    }
+}
+
+/* دعم الشاشات الكبيرة فوق 1920 */
+@media screen and (min-width: 1680px) {
+    .Login_Form {
+        width: 60%;
+        padding: 7rem;
+    }
+
+    .Login_About {
+        width: 40%;
+    }
+    .viewMenuBtn{
+        padding-top:5rem;
+        padding-bottom: 5rem;
+    }
+
+    .socialMediaIcons{
+        position: absolute;
+        bottom: 2rem;
+    }
+    .SocialMediaIconsSec a{
+        padding-right: 12rem;
+    }
+    .HeadOfLoginForm{
+        padding-bottom: 7rem;
+    }
+
+    /* تكبير حجم النصوص */
+    .HeadOfLoginForm p {
+        font-size: 1.8rem;
+    }
+
+    .HeadOfLoginForm .text-4xl {
+        font-size: 3.2rem;
+    }
+
+    .Login_About img {
+        width: 30%;
+        max-width: 350px;
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
@@ -21,14 +21,31 @@ const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [Users , SetUsers] = useState([]);
 
-    const theEmail = 'Aymanausama5@yahoo.com';
-    const thePassword = '1973aaaa';
+    //import Data
+    useEffect(()=> {
+        fetch("/data/UsersData.json")
+        .then((response) => response.json())// تحويل البيانات ال كائن جافا سكربت
+        .then((data) => SetUsers(data))// حفظ البيانات في متغير
+        .catch((error) => console.log("Error loading users:", error))
+    },[])
+
+    useEffect(() => {
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        if (loggedInUser) {
+            navigate("/home"); // إذا كان هناك مستخدم مسجل، يتم توجيهه تلقائيًا إلى الصفحة الرئيسية
+        }
+    }, []);
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (email === theEmail && password === thePassword) {
+        const foundUser = Users.find(user => user.email === email && user.password === password);
+        
+        if (foundUser) {
+            localStorage.setItem("loggedInUser", JSON.stringify(foundUser)); // حفظ بيانات المستخدم
             Swal.fire({
                 title: 'Welcome Back!',
                 text: 'Login Successful!',
@@ -156,7 +173,7 @@ const Login = () => {
                 </motion.div>
 
                 <motion.div
-                    className='aboutInfo w-full py-8'
+                    className='aboutInfo w-full py-8 ml-6'
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1, duration: 1 }}
@@ -170,7 +187,7 @@ const Login = () => {
                     className='viewMenuBtn mt-10 '
                 >
                     <Link
-                        className="inline-block rounded-2xl border-4 border-white px-6 py-3 text-sm font-bold text-white focus:outline-none transform transition-transform duration-300 hover:scale-105"
+                        className="inline-block rounded-2xl border-4 border-white px-6 py-3 text-sm font-bold ml-6 text-white focus:outline-none transform transition-transform duration-300 hover:scale-105"
                         to='/menu'
                     >
                         view Menu
@@ -178,7 +195,7 @@ const Login = () => {
                 </motion.div>
 
                 <motion.div
-                    className='socialMediaIcons mt-20 mr-10 ml-3 sm:ml-10'
+                    className='socialMediaIcons mt-20 mr-10 sm:ml-10'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.5, duration: 1 }}

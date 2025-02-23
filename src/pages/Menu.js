@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 
 // Import components
@@ -6,6 +6,7 @@ import SideNavBar from "../components/SideNavBar";
 import MenuNavBar from "../components/MenuNavBar";
 import DishCard from "../components/DishCard";
 import Footer from "../components/Footer";
+import { CartContext } from "../context/CartContext"; // ✅ جلب الـ Context
 
 // Import styles
 import "../assets/styles/Menu.css";
@@ -16,6 +17,7 @@ const Menu = () => {
     const [sortOrder, setSortOrder] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6; // عدد الأطباق في كل صفحة
+    const { addToCart } = useContext(CartContext);  // ✅ جلب دالة الإضافة
 
     // استرجاع الإعجابات من localStorage عند تحميل الصفحة
     const getStoredLikes = () => JSON.parse(localStorage.getItem("likedDishes")) || {};
@@ -78,14 +80,14 @@ const Menu = () => {
 
     return (
         <motion.div
-            className="MenuPage"
+            className="MenuPage flex justify-center min-h-screen flex-col"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <SideNavBar />
-            <div className="MeneMainPage w-full">
+            <div className="MeneMainPage w-full max-w-screen-2xl mx-auto px-6 lg:px-10 xl:px-20 flex-grow">
                 <div className="menu1 w-full flex justify-center">
                     <MenuNavBar
                         activeCategory={activeCategory}
@@ -94,7 +96,7 @@ const Menu = () => {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 my-10 px-4 lg:ml-10">
+                <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 my-10 px-4">
                     {currentItems.length === 0 ? (
                         <p className="text-center text-gray-500">No Dishes available.</p>
                     ) : (
@@ -104,6 +106,7 @@ const Menu = () => {
                                 dish={dish}
                                 isLiked={!!likedDishes[dish.id]}
                                 onLikeToggle={() => handleLikeToggle(dish.id)}
+                                onAddToCart={() => addToCart(dish)}
                             />
                         ))
                     )}
@@ -145,9 +148,11 @@ const Menu = () => {
                         </button>
                     </div>
                 )}
-
-                <Footer />
+                {/* ✅ ضمان أن الفوتر يبقى دائمًا في الأسفل */}
+                <Footer className="mt-auto" />
             </div>
+
+            
         </motion.div>
     );
 };

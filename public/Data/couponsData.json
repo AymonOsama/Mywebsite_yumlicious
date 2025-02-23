@@ -1,0 +1,22 @@
+[
+    {
+        "code": "DISCOUNT10",
+        "discount": 10
+    },
+    {
+        "code": "SUMMER15",
+        "discount": 15
+    },
+    {
+        "code": "WINTER20",
+        "discount": 20
+    },
+    {
+        "code": "FREESHIP",
+        "discount": 30
+    },
+    {
+        "code": "VIP25",
+        "discount": 25
+    }
+]

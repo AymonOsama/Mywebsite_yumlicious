@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion'; // Import Framer Motion
 
 // import components
@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import OurBranches from '../components/HomeCompenets/OurBranches';
 import WorkingHours from '../components/HomeCompenets/WorkingHours';
 import WhoWeAre from '../components/HomeCompenets/WhoWeAre';
+import { CartContext } from "../context/CartContext"
 
 // import style files
 import '../assets/styles/HomePage.css';
@@ -22,6 +23,9 @@ const HomePage = () => {
     const [currentImage, setCurrentImage] = useState(0);
     const [dishes, setDishes] = useState([]);
     const [currentDishIndex, setCurrentDishIndex] = useState(0);
+    const getStoredLikes = () => JSON.parse(localStorage.getItem("likedDishes")) || {};
+    const [likedDishes, setLikedDishes] = useState(getStoredLikes);
+    const { addToCart } = useContext(CartContext);  // ✅ جلب دالة الإضافة
 
     // Fetch dishes from JSON file
     useEffect(() => {
@@ -72,6 +76,22 @@ const HomePage = () => {
             transition: { duration: 0.8, ease: 'easeOut' },
         },
     };
+
+    const handleLikeToggle = (id) => {
+        setLikedDishes((prevLikes) => {
+            const newLikes = { ...prevLikes, [id]: !prevLikes[id] };
+            localStorage.setItem("likedDishes", JSON.stringify(newLikes));
+            return newLikes;
+        });
+
+        setDishes((prevDishes) =>
+            prevDishes.map((dish) =>
+                dish.id === id
+                    ? { ...dish, likes: likedDishes[id] ? dish.likes - 1 : dish.likes + 1 }
+                    : dish
+            )
+        );
+    }
 
     return (
         <motion.div
@@ -149,6 +169,7 @@ const HomePage = () => {
                     </motion.div>
                 </motion.div>
 
+
                 {/* About Section */}
                 <motion.div
                     initial="hidden"
@@ -158,6 +179,7 @@ const HomePage = () => {
                 >
                     <WhoWeAre />
                 </motion.div>
+
 
                 {/* Highest Rated Dishes Section */}
                 <motion.div
@@ -170,49 +192,55 @@ const HomePage = () => {
                     <p className="text-white text-xl md:text-2xl font-bold mb-8 md:mb-16">Our Highest Rated Dishes</p>
 
                     <div className="flex justify-center w-full">
-                        {dishes.length > 0 ? (
-                            <DishCard dish={dishes[currentDishIndex]} />
-                        ) : (
-                            <p className="text-white">Loading...</p>
-                        )}
+                    {dishes.length > 0 ? (
+                    <DishCard 
+                        dish={dishes[currentDishIndex]} 
+                        isLiked={!!likedDishes[dishes[currentDishIndex]?.id]}
+                        onLikeToggle={() => handleLikeToggle(dishes[currentDishIndex]?.id)}
+                        onAddToCart={() => addToCart(dishes[currentDishIndex])}  // ✅ تمرير دالة الإضافة
+                    />
+                ) : (
+                    <p className="text-white">Loading...</p>
+                )}
                     </div>
-
                     <nav aria-label="Page navigation example" className="mt-6 md:mt-10">
-                        <ul className="inline-flex -space-x-px text-sm md:text-base">
-                            <li>
-                                <button
-                                    className="flex items-center justify-center px-3 md:px-4 h-8 md:h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-orange-500 hover:text-white cursor-pointer select-none"
-                                    onClick={previousDish}
-                                >
-                                    &lt;
-                                </button>
-                            </li>
-                            {dishes.map((_, index) => (
-                                <li key={index}>
-                                    <button
-                                        onClick={() => setCurrentDishIndex(index)}
-                                        className={`flex items-center justify-center px-3 md:px-4 h-8 md:h-10 leading-tight ${
-                                            currentDishIndex === index
-                                                ? 'bg-orange-500 text-white'
-                                                : 'text-gray-700 bg-white border border-gray-300 hover:bg-orange-500 hover:text-white'
-                                        }`}
-                                    >
-                                        {index + 1}
-                                    </button>
-                                </li>
-                            ))}
-                            <li>
-                                <button
-                                    className="flex items-center justify-center px-3 md:px-4 h-8 md:h-10 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-e-lg hover:bg-orange-500 hover:text-white cursor-pointer select-none"
-                                    onClick={nextDish}
-                                >
-                                    &gt;
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </motion.div>
+                <ul className="inline-flex -space-x-px text-sm md:text-base">
+                    <li>
+                        <button
+                            className="flex items-center justify-center px-3 md:px-4 h-8 md:h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-orange-500 hover:text-white cursor-pointer select-none"
+                            onClick={previousDish}
+                        >
+                            &lt;
+                        </button>
+                    </li>
+                    {dishes.map((_, index) => (
+                        <li key={index}>
+                            <button
+                                onClick={() => setCurrentDishIndex(index)}
+                                className={`flex items-center justify-center px-3 md:px-4 h-8 md:h-10 leading-tight ${
+                                    currentDishIndex === index
+                                        ? 'bg-orange-500 text-white'
+                                        : 'text-gray-700 bg-white border border-gray-300 hover:bg-orange-500 hover:text-white'
+                                }`}
+                            >
+                                {index + 1}
+                            </button>
+                        </li>
+                    ))}
+                    <li>
+                        <button
+                            className="flex items-center justify-center px-3 md:px-4 h-8 md:h-10 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-e-lg hover:bg-orange-500 hover:text-white cursor-pointer select-none"
+                            onClick={nextDish}
+                        >
+                            &gt;
+                        </button>
+                    </li>
+                </ul>
+                            </nav>
+                        </motion.div>
 
+
+                {/* قسم االفروع */}
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -222,6 +250,8 @@ const HomePage = () => {
                     <OurBranches />
                 </motion.div>
 
+
+                {/* قسم ساعات العمل */}
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -231,6 +261,8 @@ const HomePage = () => {
                 <WorkingHours/>
                 </motion.div>
 
+
+                {/* الفوتر  */}
                 <Footer className="w-full" />
             </motion.div>
         </motion.div>
