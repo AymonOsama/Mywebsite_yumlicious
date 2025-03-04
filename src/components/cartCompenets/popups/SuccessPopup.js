@@ -20,7 +20,7 @@ const SuccessPopup = () => {
                 navigate("/home"); // ✅ توجيه المستخدم إلى الصفحة الرئيسية
             }
         });
-    }, []);
+    }, [clearCart, navigate]);  // ✅ الحل: إضافة التبعيات هنا
 
     return null; // ✅ لا يحتاج لعرض أي شيء في JSX
 };

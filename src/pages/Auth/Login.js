@@ -36,7 +36,7 @@ const Login = () => {
         if (loggedInUser) {
             navigate("/home"); // إذا كان هناك مستخدم مسجل، يتم توجيهه تلقائيًا إلى الصفحة الرئيسية
         }
-    }, []);
+    }, [navigate]);
     
 
     const handleSubmit = (e) => {
