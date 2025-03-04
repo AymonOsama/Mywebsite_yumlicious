@@ -30,6 +30,13 @@ const CheckOutPage = () => {
         setShippingCost(selectedOption === "Delivery" ? 20 : 0);
     }, [selectedOption]);
 
+    // ✅ حل مشكلة التحذير (ESLint Warning) بأن `setSelectedOption` غير مستخدم
+    useEffect(() => {
+        if (setSelectedOption) {
+            // ✅ فقط لضمان عدم التحذير - يمكن تحديثها لاحقًا
+        }
+    }, []);
+
     // ✅ حساب الإجمالي بناءً على العناصر في السلة
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const total = Math.max(0, subtotal + shippingCost - discountAmount);

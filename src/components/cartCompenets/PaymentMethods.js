@@ -15,12 +15,12 @@ const PaymentMethods = () => {
     const handlePaymentChange = (event) => {
         setSelectedPaymentMethod(event.target.value);
         setSelectedService(""); // ✅ إعادة تعيين الخدمة عند تغيير وسيلة الدفع
+        setShowServicePopup(false); // ✅ إغلاق Popup اختيار الخدمة إذا تم التغيير
     };
 
     const handleServiceSelection = (service) => {
         setSelectedService(service);
-        setShowServicePopup(false); // ✅ إغلاق Popup اختيار الخدمة
-        setShowPopup(true); // ✅ فتح Popup الدفع بعد اختيار الخدمة
+        setShowServicePopup(false); // ✅ إغلاق Popup اختيار الخدمة بعد الاختيار
     };
 
     const handlePaymentSubmit = () => {

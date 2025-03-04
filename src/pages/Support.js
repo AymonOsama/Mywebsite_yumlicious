@@ -1,4 +1,3 @@
-import react from "react";
 
 //import style files
 import '../assets/styles/Support.css'
