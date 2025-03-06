@@ -8,3 +8,130 @@
     box-sizing: border-box; /* إضافة box-sizing */
     overflow-x: hidden; /* إضافة overflow-x: hidden */
 }
+
+.mainSupportPage {
+    width: 100%;
+}
+
+/* ✅ تنسيق الـ Support Form */
+.supportContainer {
+    background: rgba(51, 51, 51, 0.9);
+    padding: 2rem;
+    border-radius: 15px;
+    color: white;
+}
+
+.supportForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.inputGroup input,
+.inputGroup select,
+.inputGroup textarea {
+    padding: 0.7rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #333;
+}
+
+.inputGroup textarea {
+    height: 100px;
+    resize: none;
+}
+
+.submitButton {
+    background-color: #FF7F00;
+    color: white;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submitButton:hover {
+    background-color: #e66f00;
+}
+
+/* ✅ تحسين تنسيق قسم "Call Us" */
+.callUsContainer {
+    background: rgba(51, 51, 51, 0.85);
+    padding: 2rem;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.callUsContainer h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #fefefe;
+}
+
+.callUsContainer ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+/* ✅ تجعل الأرقام فوق بعضها عندما تكون الشاشة صغيرة */
+@media screen and (max-width: 640px) {
+    .callUsContainer ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+.callUsContainer li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.callUsContainer a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.callUsContainer a:hover {
+    color: #FF7F00;
+}
+
+.phoneIcon {
+    color: #FF7F00;
+    font-size: 22px;
+    transition: 0.3s;
+}
+
+.callUsContainer li:hover .phoneIcon {
+    color: white;
+}

@@ -1,42 +1,44 @@
 import React, { useState, useEffect, useContext } from "react";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; 
 
 // Import components
 import SideNavBar from "../components/SideNavBar";
 import MenuNavBar from "../components/MenuNavBar";
 import DishCard from "../components/DishCard";
 import Footer from "../components/Footer";
-import { CartContext } from "../context/CartContext"; // ✅ جلب الـ Context
+import { CartContext } from "../context/CartContext"; 
 
 // Import styles
 import "../assets/styles/Menu.css";
 
 const Menu = () => {
+    // ✅ State Management
     const [dishes, setDishes] = useState([]);
     const [activeCategory, setActiveCategory] = useState("Chicken");
     const [sortOrder, setSortOrder] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6; // عدد الأطباق في كل صفحة
-    const { addToCart } = useContext(CartContext);  // ✅ جلب دالة الإضافة
+    const itemsPerPage = 6; 
+    const { addToCart } = useContext(CartContext);
 
-    // استرجاع الإعجابات من localStorage عند تحميل الصفحة
+    // ✅ Retrieve liked dishes from localStorage
     const getStoredLikes = () => JSON.parse(localStorage.getItem("likedDishes")) || {};
     const [likedDishes, setLikedDishes] = useState(getStoredLikes);
 
+    // ✅ Fetch dishes data from JSON file
     useEffect(() => {
         fetch("/data/dishesData.json")
             .then((response) => response.json())
             .then((data) => {
                 const dishesWithId = data.map((dish, index) => ({
                     ...dish,
-                    id: dish.id || index + 1, // إضافة ID تلقائي إذا لم يكن موجودًا
+                    id: dish.id || index + 1, 
                 }));
                 setDishes(dishesWithId);
             })
             .catch((error) => console.error("Error loading dishes:", error));
     }, []);
 
-    // تحديث الإعجاب عند الضغط على القلب
+    // ✅ Handle like toggle
     const handleLikeToggle = (id) => {
         setLikedDishes((prevLikes) => {
             const newLikes = { ...prevLikes, [id]: !prevLikes[id] };
@@ -53,23 +55,23 @@ const Menu = () => {
         );
     };
 
+    // ✅ Filter dishes based on selected category
     let filteredDishes = dishes.filter((dish) => dish.category === activeCategory);
 
+    // ✅ Sort dishes
     if (sortOrder === "lowToHigh") {
         filteredDishes = [...filteredDishes].sort((a, b) => a.price - b.price);
     } else if (sortOrder === "highToLow") {
         filteredDishes = [...filteredDishes].sort((a, b) => b.price - a.price);
     }
 
-    // **📌 حساب عدد الصفحات**
+    // ✅ Pagination logic
     const totalPages = Math.ceil(filteredDishes.length / itemsPerPage);
-    
-    // **📌 تحديد العناصر التي سيتم عرضها في الصفحة الحالية**
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredDishes.slice(indexOfFirstItem, indexOfLastItem);
 
-    // **📌 التحكم في تغيير الصفحات**
+    // ✅ Pagination navigation
     const nextPage = () => {
         if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
     };
@@ -78,25 +80,51 @@ const Menu = () => {
         if (currentPage > 1) setCurrentPage((prev) => prev - 1);
     };
 
+    // ✅ Scroll animation settings (NO Y MOVEMENT TO AVOID SCROLL ISSUES)
+    const scrollVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { duration: 0.6, ease: "easeOut" },
+        },
+    };
+
     return (
-        <motion.div
-            className="MenuPage flex justify-center min-h-screen flex-col"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-        >
+        <div className="MenuPage"> {/* ✅ Prevent Scroll Issues */}
+            {/* ✅ Sidebar Navigation (Static - No Framer Motion) */}
             <SideNavBar />
-            <div className="MeneMainPage w-full max-w-screen-2xl mx-auto px-6 lg:px-10 xl:px-20 flex-grow">
-                <div className="menu1 w-full flex justify-center">
+
+            {/* ✅ Apply Framer Motion only to the main content */}
+            <motion.div 
+                className="MeneMainPage w-full max-w-screen-2xl mx-auto px-6 lg:px-10 xl:px-20 flex-grow"
+                initial="hidden"
+                whileInView="visible"
+                variants={scrollVariants}
+                viewport={{ once: true, amount: 0.3 }}
+            >
+                {/* ✅ Menu Navigation Bar */}
+                <motion.div 
+                    className="menu1 w-full flex justify-center"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={scrollVariants}
+                    viewport={{ once: true, amount: 0.3 }}
+                >
                     <MenuNavBar
                         activeCategory={activeCategory}
                         setActiveCategory={setActiveCategory}
                         setSortOrder={setSortOrder}
                     />
-                </div>
+                </motion.div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 my-10 px-4">
+                {/* ✅ Dish Cards Grid */}
+                <motion.div 
+                    className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 my-10 px-4"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={scrollVariants}
+                    viewport={{ once: true, amount: 0.3 }}
+                >
                     {currentItems.length === 0 ? (
                         <p className="text-center text-gray-500">No Dishes available.</p>
                     ) : (
@@ -110,11 +138,17 @@ const Menu = () => {
                             />
                         ))
                     )}
-                </div>
+                </motion.div>
 
-                {/* 📌 أزرار التنقل بين الصفحات */}
+                {/* ✅ Pagination Buttons */}
                 {totalPages > 1 && (
-                    <div className="flex justify-center mt-6 mb-10">
+                    <motion.div 
+                        className="flex justify-center mt-6 mb-10"
+                        initial="hidden"
+                        whileInView="visible"
+                        variants={scrollVariants}
+                        viewport={{ once: true, amount: 0.3 }}
+                    >
                         <button
                             className={`px-4 py-2 mx-1 bg-gray-700 text-white rounded-md ${
                                 currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-600"
@@ -146,14 +180,20 @@ const Menu = () => {
                         >
                             Next ❯
                         </button>
-                    </div>
+                    </motion.div>
                 )}
-                {/* ✅ ضمان أن الفوتر يبقى دائمًا في الأسفل */}
-                <Footer className="mt-auto" />
-            </div>
 
-            
-        </motion.div>
+                {/* ✅ Footer Section */}
+                <motion.div 
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={scrollVariants}
+                    viewport={{ once: true, amount: 0.3 }}
+                >
+                    <Footer className="mt-auto" />
+                </motion.div>
+            </motion.div>
+        </div>
     );
 };
 

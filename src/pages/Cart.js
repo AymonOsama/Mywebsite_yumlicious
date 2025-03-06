@@ -54,10 +54,7 @@ const Cart = () => {
 
     return (
         <motion.div 
-            className="allCartPage flex flex-col min-h-screen"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="allCartPage flex flex-col min-h-screen overflow-hidden"
         >
             <SideNavBar />
 
@@ -76,7 +73,7 @@ const Cart = () => {
             )}
 
             <motion.div 
-                className="bg-[rgba(51,51,51,0.79)] px-4 md:px-10 py-4 rounded-2xl flex flex-col mx-2 md:mx-4 mt-3 mb-3 w-full flex-1"
+                className="bg-[rgba(51,51,51,0.79)] w-full px-4 py-4 my-3 mx-4 flex flex-col justify-between rounded-2xl"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.8 }}

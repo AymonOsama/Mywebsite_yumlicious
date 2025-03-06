@@ -36,7 +36,7 @@ const SideNavBar = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth >= 768) {
+            if (window.innerWidth >= 1024) {
                 setIsMenuOpen(false); // أغلق القائمة إذا كان العرض أكبر من 768px
             }
         };
