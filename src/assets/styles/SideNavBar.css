@@ -13,7 +13,6 @@
     z-index: 50; /* فوق جميع العناصر الأخرى */
 }
 
-
 /* عند إظهار القائمة */
 .side-nav-bar.translate-x-0 {
     transform: translateX(0);
@@ -22,12 +21,13 @@
 /* زر القائمة (Hamburger Menu) */
 .menu-btn {
     position: fixed;
-    top: 1rem; /* تأكد من مكانه في الأعلى */
-    left: 1rem; /* أو right حسب التصميم */
+    top: 1rem;
+    left: 1rem;
     z-index: 100;
     cursor: pointer;
     color: white;
 }
+
 /* زر القائمة (Hamburger Menu) - يظهر فقط في الشاشات الصغيرة */
 .close-btn {
     position: fixed;
@@ -37,12 +37,12 @@
     background: none;
     border: none;
     cursor: pointer;
-    width: 40px; /* حجم الزر فقط */
-    height: 40px; /* حجم الزر فقط */
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: auto; /* السماح بالضغط على الزر فقط */
+    pointer-events: auto;
 }
 
 /* إخفاء الزر في الشاشات المتوسطة والكبيرة */
@@ -55,14 +55,60 @@
 /* الشاشات المتوسطة */
 @media (min-width: 768px) {
     .side-nav-bar {
-        width: 20%; /* عرض القائمة للشاشات المتوسطة */
-        max-width: 240px; /* أقصى عرض للقائمة */
-        transform: translateX(0); /* إظهار القائمة */
-        position: sticky; /* اجعلها تتحرك مع الشاشة */
+        width: 20%;
+        max-width: 240px;
+        transform: translateX(0);
+        position: sticky;
         top: 0;
-        z-index: 40; /* أقل من الزر */
+        z-index: 40;
     }
     .menu-btn {
-        display: none; /* إخفاء الزر على الشاشات الكبيرة */
+        display: none;
+    }
+}
+
+/* ✅ عند تقليل العرض إلى أقل من 1100px والارتفاع إلى أقل من 800px، يتم التعامل معها كأنها على الهاتف */
+@media (max-width: 1100px) and (max-height: 800px) {
+    .side-nav-bar {
+        width: 70%;
+        max-width: 300px;
+        position: fixed;
+        transform: translateX(-100%);
+        z-index: 50;
+    }
+
+    .side-nav-bar.translate-x-0 {
+        transform: translateX(0);
+    }
+
+    .menu-btn {
+        display: flex;
+    }
+
+    .close-btn {
+        display: flex;
+    }
+}
+
+/* ✅ تحويل الـ nav إلى موبايل إذا كان العرض أقل من 912px */
+@media (max-width: 912px) {
+    .side-nav-bar {
+        width: 80%; /* اجعل القائمة أوسع */
+        max-width: 280px;
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 50;
+    }
+
+    .side-nav-bar.translate-x-0 {
+        transform: translateX(0);
+    }
+
+    .menu-btn {
+        display: flex;
+    }
+
+    .close-btn {
+        display: flex;
     }
 }

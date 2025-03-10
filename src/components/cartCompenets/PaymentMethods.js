@@ -4,23 +4,22 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import SuccessPopup from "./popups/SuccessPopup";
 import PaymentPopup from "./popups/PaymentPopup";
 import AlternativePaymentPopup from "./popups/AlternativePaymentPopup";
-import SelectPaymentServicePopup from "./popups/Online Getaway"; // ✅ استيراد Popup اختيار الخدمة
+import SelectPaymentServicePopup from "./popups/OnlineGetaway"; // ✅ استيراد Popup اختيار الخدمة
 
 const PaymentMethods = () => {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
     const [selectedService, setSelectedService] = useState(""); // ✅ تحديد خدمة الدفع عند اختيار Online Getaway
-    const [showPopup, setShowPopup] = useState(false);
-    const [showServicePopup, setShowServicePopup] = useState(false);
+    const [popupType, setPopupType] = useState(null); // ✅ إدارة الـ popups بنوعها
 
     const handlePaymentChange = (event) => {
         setSelectedPaymentMethod(event.target.value);
         setSelectedService(""); // ✅ إعادة تعيين الخدمة عند تغيير وسيلة الدفع
-        setShowServicePopup(false); // ✅ إغلاق Popup اختيار الخدمة إذا تم التغيير
+        setPopupType(null); // ✅ إغلاق أي popup مفتوحة عند تغيير الدفع
     };
 
     const handleServiceSelection = (service) => {
         setSelectedService(service);
-        setShowServicePopup(false); // ✅ إغلاق Popup اختيار الخدمة بعد الاختيار
+        setPopupType("alternativePayment"); // ✅ فتح الـ popup بعد اختيار الخدمة
     };
 
     const handlePaymentSubmit = () => {
@@ -30,11 +29,16 @@ const PaymentMethods = () => {
         }
 
         if (selectedPaymentMethod === "Online Getaway" && !selectedService) {
-            setShowServicePopup(true); // ✅ فتح Popup اختيار الخدمة فقط عند الضغط على زر Payment
+            setPopupType("selectService"); // ✅ فتح Popup اختيار الخدمة فقط عند الضغط على Payment
             return;
         }
 
-        setShowPopup(true); // ✅ فتح Popup الدفع بعد التأكد من كل المدخلات
+        // ✅ تعيين نوع الـ popup بناءً على وسيلة الدفع
+        if (selectedPaymentMethod === "Cash on Delivery") {
+            setPopupType("success");
+        } else if (selectedPaymentMethod === "Direct Bank Transfer") {
+            setPopupType("bankTransfer");
+        }
     };
 
     return (
@@ -92,14 +96,12 @@ const PaymentMethods = () => {
                 Payment
             </button>
 
-            {/* ✅ عرض Popup اختيار الخدمة عند اختيار Online Getaway فقط عند الضغط على Payment */}
-            {showServicePopup && <SelectPaymentServicePopup onSelectService={handleServiceSelection} />}
-
-            {/* ✅ عرض الـ Popup المناسب بناءً على الاختيار */}
-            {showPopup && selectedPaymentMethod === "Cash on Delivery" && <SuccessPopup />}
-            {showPopup && selectedPaymentMethod === "Direct Bank Transfer" && <PaymentPopup paymentMethod={selectedPaymentMethod} />}
-            {showPopup && selectedPaymentMethod === "Online Getaway" && selectedService && (
-                <AlternativePaymentPopup paymentMethod={selectedService} />
+            {/* ✅ عرض الـ popup بناءً على `popupType` */}
+            {popupType === "selectService" && <SelectPaymentServicePopup onSelectService={handleServiceSelection} />}
+            {popupType === "success" && <SuccessPopup onClose={() => setPopupType(null)} />}
+            {popupType === "bankTransfer" && <PaymentPopup paymentMethod={selectedPaymentMethod} onClose={() => setPopupType(null)} />}
+            {popupType === "alternativePayment" && selectedService && (
+                <AlternativePaymentPopup paymentMethod={selectedService} onClose={() => setPopupType(null)} />
             )}
         </div>
     );

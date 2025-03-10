@@ -1,36 +1,20 @@
-import { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion"; // ✅ Import Framer Motion
 
 // Style files
 import '../assets/styles/Support.css';
+
+// import icons
+import { FaPhoneAlt } from "react-icons/fa"; // ✅ Phone icon
 
 // Import Components
 import SideNavBar from "../components/SideNavBar";
 import OurBranches from '../components/HomeCompenets/OurBranches';
 import WorkingHours from '../components/HomeCompenets/WorkingHours';
 import Footer from "../components/Footer";
-import { FaPhoneAlt } from "react-icons/fa"; // ✅ Phone icon
+import SupportForm from "../components/SupportComponents/SupportForm";
 
 const Support = () => {
-    // ✅ State to handle form inputs
-    const [formData, setFormData] = useState({
-        phone: "",
-        issueType: "General Inquiry",
-        message: "",
-    });
-
-    // ✅ Handle form input changes
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    // ✅ Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert("Your request has been submitted!");
-        console.log(formData);
-        setFormData({ phone: "", issueType: "General Inquiry", message: "" });
-    };
 
     // ✅ Scroll animation settings
     const scrollVariants = {
@@ -53,67 +37,9 @@ const Support = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
             >
-                {/* ✅ Support Form Section with animation */}
-                <motion.div 
-                    className="supportContainer bg-[rgba(51,51,51,0.79)] px-6 md:px-10 py-7 rounded-2xl flex flex-col"
-                    initial="hidden"
-                    whileInView="visible"
-                    variants={scrollVariants}
-                    viewport={{ once: true, amount: 0.3 }}
-                >
-                    <h2 className="text-white text-2xl font-semibold mb-4">Support & Help</h2>
-                    <p className="text-white mb-6">
-                        If you have any issues or suggestions, please fill out the form below.
-                    </p>
-
-                    {/* ✅ Support Form */}
-                    <form onSubmit={handleSubmit} className="supportForm">
-                        <div className="inputGroup">
-                            <label>Phone Number:</label>
-                            <input
-                                type="tel"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                required
-                                placeholder="Enter your phone number"
-                            />
-                        </div>
-
-                        <div className="inputGroup">
-                            <label>Issue Type:</label>
-                            <select name="issueType" value={formData.issueType} onChange={handleChange}>
-                                <option>General Inquiry</option>
-                                <option>Technical Issue</option>
-                                <option>Feedback</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-
-                        <div className="inputGroup">
-                            <label>Message:</label>
-                            <textarea
-                                name="message"
-                                value={formData.message}
-                                onChange={handleChange}
-                                required
-                                placeholder="Describe your issue or feedback..."
-                            ></textarea>
-                        </div>
-
-                        {/* ✅ Submit Button with motion effects */}
-                        <motion.button 
-                            type="submit" 
-                            className="submitButton"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Submit
-                        </motion.button>
-                    </form>
-                </motion.div>
-
                 {/* ✅ Call Us Section with animation */}
+                <SupportForm/>
+                
                 <motion.div 
                     className="callUsContainer"
                     initial="hidden"

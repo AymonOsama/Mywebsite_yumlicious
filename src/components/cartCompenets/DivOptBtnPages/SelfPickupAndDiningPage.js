@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 
@@ -24,8 +24,25 @@ const stores = {
 };
 
 const SelfPickupAndDiningPage = () => {
-    const [selectedCity, setSelectedCity] = useState("");
-    const [selectedStore, setSelectedStore] = useState("");
+    // ✅ تحميل البيانات من `localStorage` أو تعيين القيم الافتراضية
+    const [formData, setFormData] = useState(() => {
+        return JSON.parse(localStorage.getItem("SelfPickupAddress")) || {
+            city: "",
+            store: "",
+            otherDetails: ""
+        };
+    });
+
+    // ✅ حفظ البيانات عند أي تغيير في `formData`
+    useEffect(() => {
+        localStorage.setItem("SelfPickupAddress", JSON.stringify(formData));
+    }, [formData]);
+
+    // ✅ تحديث بيانات الإدخال عند تغييرها
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
     return (
         <div className="h-auto flex items-center justify-center p-6">
@@ -37,11 +54,7 @@ const SelfPickupAndDiningPage = () => {
 
                     {/* ✅ تضمين خريطة Google */}
                     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-                        <GoogleMap
-                            mapContainerStyle={mapContainerStyle}
-                            center={center}
-                            zoom={10}
-                        >
+                        <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={10}>
                             <Marker position={center} />
                         </GoogleMap>
                     </LoadScript>
@@ -49,7 +62,7 @@ const SelfPickupAndDiningPage = () => {
                     <p className="text-gray-500 text-sm mt-4">Last updated: 7 days ago</p>
                 </div>
 
-                {/* 🏠 نموذج إدخال العنوان (باستخدام الـ Dropdown) */}
+                {/* 🏠 نموذج إدخال العنوان */}
                 <div className="p-6 rounded-lg flex-grow-0">
                     <div className="grid grid-cols-1 gap-4">
                         {/* اختيار المدينة */}
@@ -57,10 +70,14 @@ const SelfPickupAndDiningPage = () => {
                             <label className="block text-white text-sm font-bold mb-2">City</label>
                             <select
                                 className="w-full border border-orange-500 bg-orange-500 text-white rounded-md p-3 outline-none focus:ring-2 focus:ring-orange-400"
-                                value={selectedCity}
+                                value={formData.city}
+                                name="city"
                                 onChange={(e) => {
-                                    setSelectedCity(e.target.value);
-                                    setSelectedStore(""); // إعادة تعيين المتجر عند تغيير المدينة
+                                    handleChange(e);
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        store: "" // ✅ إعادة تعيين المتجر عند تغيير المدينة
+                                    }));
                                 }}
                             >
                                 <option value="">Select a City</option>
@@ -77,13 +94,14 @@ const SelfPickupAndDiningPage = () => {
                             <label className="block text-white text-sm font-bold mb-2">Store</label>
                             <select
                                 className="w-full border border-orange-500 bg-orange-500 text-white rounded-md p-3 outline-none focus:ring-2 focus:ring-orange-400"
-                                value={selectedStore}
-                                onChange={(e) => setSelectedStore(e.target.value)}
-                                disabled={!selectedCity}
+                                value={formData.store}
+                                name="store"
+                                onChange={handleChange}
+                                disabled={!formData.city}
                             >
                                 <option value="">Select a Store</option>
-                                {selectedCity &&
-                                    stores[selectedCity].map((store, index) => (
+                                {formData.city &&
+                                    stores[formData.city].map((store, index) => (
                                         <option key={index} value={store}>
                                             {store}
                                         </option>
@@ -95,7 +113,12 @@ const SelfPickupAndDiningPage = () => {
                     {/* ملاحظات إضافية */}
                     <div className="mt-4">
                         <label className="block text-white text-sm font-bold mb-2">Other Details</label>
-                        <textarea className="w-full border border-orange-500 bg-white text-gray-800 rounded-md p-2 outline-none focus:ring-2 focus:ring-orange-500 h-20"></textarea>
+                        <textarea 
+                            name="otherDetails"
+                            value={formData.otherDetails}
+                            onChange={handleChange}
+                            className="w-full border border-orange-500 bg-white text-gray-800 rounded-md p-2 outline-none focus:ring-2 focus:ring-orange-500 h-20"
+                        ></textarea>
                     </div>
 
                     {/* ✅ زر الـ Checkout */}

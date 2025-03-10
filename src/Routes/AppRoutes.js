@@ -12,6 +12,8 @@ import Cart from '../pages/Cart';
 import SelectDilviryOptionPage from '../components/cartCompenets/SelectDilviryOptionPage';
 import CheckOutPage from '../components/cartCompenets/CheckOutPage';
 import Support from '../pages/Support';
+import ProfilePage from '../pages/ProfilePage';
+import SideNavBar from '../components/SideNavBar';
 // ✅ استدعاء الـ Context
 import { CartProvider } from '../context/CartContext'; 
 
@@ -30,6 +32,8 @@ const AppRoutes = () => {
                     <Route path="/DilviryOption" element={<SelectDilviryOptionPage />} />
                     <Route path='/checkout' element={<CheckOutPage/>}/>
                     <Route path='/support' element={<Support/>} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="*" element={<SideNavBar />} />
                 </Routes>
             </CartProvider>
         </Router>

@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 // Import components
 import SideNavBar from "../SideNavBar";
-import DeliveryOptionButton from "./DivOptBtnPages/DeliveryOptionButton";
+import DeliveryOptionButton from "./DivOptBtnPages/DeliveryOptionButtons";
 import DeliveryPage from "./DivOptBtnPages/DilveryPage";
 import SelfPickupAndDiningPage from "./DivOptBtnPages/SelfPickupAndDiningPage";
 
@@ -14,21 +14,25 @@ import "../../assets/styles/SelectDilviryOptionPage.css";
 // Import icons
 import { RiArrowGoBackLine } from "react-icons/ri";
 
+// ✅ متغير يحتوي على `motion` للانتقالات
+const motionVariants = {
+    initial: { opacity: 0, x: 50 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -50 },
+};
+
 const SelectDilviryOptionPage = () => {
-    // ✅ تحميل `selectedOption` من `localStorage` أو استخدام القيمة الافتراضية
-    const [selectedOption, setSelectedOption] = useState(
+    const [selectedOption, setSelectedOption] = useState(() => 
         localStorage.getItem("selectedOption") || "Delivery"
     );
 
-    // ✅ حفظ `selectedOption` في `localStorage` عند تغييره
+    // ✅ حفظ `selectedOption` عند تغييره فقط
     useEffect(() => {
         localStorage.setItem("selectedOption", selectedOption);
     }, [selectedOption]);
 
     return (
-        <motion.div 
-            className="DivOptPage"
-        >
+        <motion.div className="DivOptPage">
             <SideNavBar />
 
             <motion.div 
@@ -38,8 +42,9 @@ const SelectDilviryOptionPage = () => {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.5 }}
             >
+                {/* ✅ رأس الصفحة */}
                 <div className="Header flex justify-between">
-                    <p className="text-white font-bold text-left text-lg md:text-2xl font-sans">
+                    <p className="text-white font-bold text-lg md:text-2xl">
                         Select Delivery Option
                     </p>
                     <Link to="/cart">
@@ -47,36 +52,25 @@ const SelectDilviryOptionPage = () => {
                     </Link>
                 </div>
 
-                {/* ✅ تمرير selectedOption و setSelectedOption إلى DeliveryOptionButton */}
+                {/* ✅ زر اختيار طريقة التوصيل */}
                 <DeliveryOptionButton 
                     selectedOption={selectedOption} 
                     setSelectedOption={setSelectedOption} 
                 />
 
-                {/* ✅ استخدام AnimatePresence للانتقالات بين DeliveryPage و SelfPickupAndDiningPage */}
+                {/* ✅ عرض الصفحة المناسبة بناءً على الخيار المحدد */}
                 <div className="relative mt-6">
                     <AnimatePresence mode="wait">
-                        {selectedOption === "Delivery" ? (
-                            <motion.div 
-                                key="delivery"
-                                initial={{ opacity: 0, x: -50 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 50 }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                <DeliveryPage />
-                            </motion.div>
-                        ) : (
-                            <motion.div 
-                                key="pickup-dining"
-                                initial={{ opacity: 0, x: 50 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -50 }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                <SelfPickupAndDiningPage />
-                            </motion.div>
-                        )}
+                        <motion.div 
+                            key={selectedOption}
+                            variants={motionVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            transition={{ duration: 0.5 }}
+                        >
+                            {selectedOption === "Delivery" ? <DeliveryPage /> : <SelfPickupAndDiningPage />}
+                        </motion.div>
                     </AnimatePresence>
                 </div>
             </motion.div>
